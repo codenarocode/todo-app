@@ -22,24 +22,79 @@ export function Todos({todos,setTodos}){
                     overflow: "auto"
                 }}>{todo.description}</div>
                 <ComplitionButton todo={todo} todos={todos} setTodos={setTodos}></ComplitionButton>
+                <DeletionButton todo={todo} todos={todos} setTodos={setTodos}></DeletionButton>
              </div>
           })}
      </div>
 }
 
+// Button component to delete that particular Todo
+
+function DeletionButton({todo,todos,setTodos}){
+
+    async function deleteTodo(){
+
+        // Get Confirmation from user once more
+
+          const response = confirm("Do you really want to delete this Todo?")
+          if(!response) return;
+
+         //delete from database
+
+           await fetch("http://localhost:3000/delete",{
+                method : "DELETE",
+                body : JSON.stringify({
+                    title : todo.title
+                }),
+                headers : {
+                    "Content-type" : "application/json"
+                }
+           });
+
+         // delete from state
+
+         setTodos(todos.filter((todoo)=>{
+              if(todoo.title === todo.title){
+                 return false;
+              }
+              else return true;
+         }));
+    }
+
+    return <button style={{
+        backgroundColor : "#FF6347",
+        margin:2,
+        padding :5,
+        width: 325,
+        cursor: "pointer"
+    }} onClick={deleteTodo}>Delete Todo</button>
+}
+
+// Button Component to Mark as Done that particular Todo
 
 function ComplitionButton({todo,todos,setTodos}){
     
-    function toggleButton(){
+   async function toggleButton(){
        
         //update in database
          
+         await fetch("http://localhost:3000/completed",{
+               method : "PUT",
+               headers : {
+                  "Content-type" : "application/json"
+               },
+               body : JSON.stringify({
+                  title : todo.title,
+                  completed: !todo.completed
+               })
+         });
+
          
 
        //update state
       
        setTodos(todos.map((todoo) => {
-          if (todoo.title === todo.title && todoo.description===todo.description) {
+          if (todoo.title === todo.title) {
             
              return {...todoo,completed:!todo.completed};
              
@@ -49,7 +104,7 @@ function ComplitionButton({todo,todos,setTodos}){
 
     }
     return <button style={{
-        backgroundColor : todo.completed ? "lightgreen" :"#FF6347",
+        backgroundColor : todo.completed ? "lightgreen" :"lightblue",
         margin:2,
         padding :5,
         width: 325,

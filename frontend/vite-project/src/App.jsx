@@ -5,19 +5,12 @@ import { CreateTodo } from './components/createTodo'
 import { Todos } from './components/Todos'
 
 function App() {
-  const [todos, setTodos]= useState([{
-    title:"Solve DSA Q's",
-    description: "Solve hole Leetcode",
-    completed: false
-  },{
-    title:"Make Todo website",
-    description: "End to End",
-    completed: true
-  }]);
+  const [todos, setTodos]= useState([]);
       return (
       <div>
         <h1 style={{
-           textAlign: "center"
+           textAlign: "center",
+           marginTop: 80
         }}>TODO APP</h1>
          <CreateTodo todos={todos} setTodos={setTodos}></CreateTodo>
          <Todos todos={todos} setTodos={setTodos}></Todos>

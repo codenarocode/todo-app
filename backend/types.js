@@ -6,10 +6,16 @@ const createTodo= z.object({
 });
 
 const updateTodo= z.object({
-    title: z.string()
-})
+    title: z.string(),
+    completed : z.boolean()
+});
+
+const deleteTodo= z.object({
+    title : z.string()
+});
 
 module.exports={
     createTodo: createTodo,
-    updateTodo: updateTodo
+    updateTodo: updateTodo,
+    deleteTodo: deleteTodo
 }

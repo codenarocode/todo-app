@@ -7,10 +7,21 @@ import { useState } from "react"
 export function CreateTodo({todos,setTodos}){
     const [title, setTitle]=  useState("");
     const [description, setDescription]=useState("");
-    function updateTodos(){
+    async function updateTodos(){
          // add new todo in database
 
-           
+          await fetch("http://localhost:3000/todo",{
+              method : "POST",
+              body : JSON.stringify({
+                 title : title,
+                 description : description
+              }),
+              headers: {
+               "Content-type" : "application/json"
+              }
+           });
+
+           alert("Todo Added")
 
         // add new todo in state
         if(title){
