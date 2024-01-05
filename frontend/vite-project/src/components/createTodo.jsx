@@ -8,9 +8,12 @@ export function CreateTodo({todos,setTodos}){
     const [title, setTitle]=  useState("");
     const [description, setDescription]=useState("");
     async function updateTodos(){
+
+          if(!title) return;
+
          // add new todo in database
 
-          await fetch("http://localhost:3000/todo",{
+         let res= await fetch("http://localhost:3000/todo",{
               method : "POST",
               body : JSON.stringify({
                  title : title,
@@ -21,17 +24,19 @@ export function CreateTodo({todos,setTodos}){
               }
            });
 
-           alert("Todo Added")
+         res= await res.json(); 
+         const _id=res._id;
 
         // add new todo in state
-        if(title){
-
+        
          setTodos([...todos,{
+            _id: _id,
             title : title,
             description: description,
             completed : false
          }])
-        }
+         alert("Todo Added")
+        
     }
        return <div>
               <input type="text" placeholder="title" style={ {

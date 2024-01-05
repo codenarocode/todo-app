@@ -1,11 +1,18 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import { CreateTodo } from './components/createTodo'
 import { Todos } from './components/Todos'
 
-function App() {
+ function App() {
   const [todos, setTodos]= useState([]);
+      useEffect(()=>{
+          fetch("http://localhost:3000/todos").then(async(res)=>{
+             const response= await res.json();
+             setTodos(response.todos);
+         });
+      },[])
+      
       return (
       <div>
         <h1 style={{

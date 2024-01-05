@@ -15,14 +15,14 @@ app.post("/todo", async (req,res)=>{
             msg : "you sent the invalid input"
          })
       }
-      await Todo.create({
+      const result =await Todo.create({
             title: req.body.title,
             description: req.body.description,
             completed: false
       });
 
       res.json({
-        msg: "Todo created"
+          _id : result._id
       })
 });
 
@@ -42,7 +42,7 @@ app.put("/completed", async(req,res)=>{
      }
      else{
      const completed=req.body.completed;
-     await Todo.updateOne({ title : req.body.title},{$set : {completed}});
+     await Todo.updateOne({ _id : req.body._id},{$set : {completed}});
      res.json({
         msg: "Todo updated"
      });
@@ -57,7 +57,7 @@ app.delete("/delete",async(req,res)=>{
        });
      }
      else{
-         await Todo.deleteOne({title: req.body.title});
+         await Todo.deleteOne({_id: req.body._id});
          res.json({
             msg: "Todo deleted"
          });

@@ -44,7 +44,7 @@ function DeletionButton({todo,todos,setTodos}){
            await fetch("http://localhost:3000/delete",{
                 method : "DELETE",
                 body : JSON.stringify({
-                    title : todo.title
+                    _id : todo._id
                 }),
                 headers : {
                     "Content-type" : "application/json"
@@ -54,7 +54,7 @@ function DeletionButton({todo,todos,setTodos}){
          // delete from state
 
          setTodos(todos.filter((todoo)=>{
-              if(todoo.title === todo.title){
+              if(todoo._id === todo._id){
                  return false;
               }
               else return true;
@@ -84,7 +84,7 @@ function ComplitionButton({todo,todos,setTodos}){
                   "Content-type" : "application/json"
                },
                body : JSON.stringify({
-                  title : todo.title,
+                  _id : todo._id,
                   completed: !todo.completed
                })
          });
@@ -94,7 +94,7 @@ function ComplitionButton({todo,todos,setTodos}){
        //update state
       
        setTodos(todos.map((todoo) => {
-          if (todoo.title === todo.title) {
+          if (todoo._id === todo._id) {
             
              return {...todoo,completed:!todo.completed};
              
